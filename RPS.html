@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock, Paper, Scissors Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    function playRound(playerSelection, computerSelection) {
+        // Add logic to determine the winner based on playerSelection and computerSelection
+        if (playerSelection === computerSelection) {
+            return "It's a tie!";
+        } else if (
+            (playerSelection === "rock" && computerSelection === "scissors") ||
+            (playerSelection === "paper" && computerSelection === "rock") ||
+            (playerSelection === "scissors" && computerSelection === "paper")
+        ) {
+            return "You win!";
+        } else {
+            return "Computer wins!";
+        }
+    }
+
+    function getComputerChoice() {
+        let randomNum = Math.floor(Math.random() * 3) + 1;
+
+        if (randomNum === 1) {
+            return "rock";
+        } else if (randomNum === 2) {
+            return "paper";
+        } else {
+            return "scissors";
+        }
+    }
+
+    function playGame() {
+        let playerScore = 0;
+        let computerScore = 0;
+
+        for (let i = 0; i < 5; i++) {
+            let playerChoice = prompt("Choose Rock, Paper, or Scissors:").toLowerCase();
+            let computerChoice = getComputerChoice();
+
+            console.log(`Round ${i + 1}:`);
+            console.log(`Player chose ${playerChoice}`);
+            console.log(`Computer chose ${computerChoice}`);
+
+            let roundResult = playRound(playerChoice, computerChoice);
+            console.log(roundResult);
+
+            if (roundResult.includes("win")) {
+                playerScore++;
+            } else if (roundResult.includes("Computer")) {
+                computerScore++;
+            }
+
+            if (playerScore === 3) {
+                alert("You are the overall winner!");
+                return;
+            } else if (computerScore === 3) {
+                alert("Computer is the overall winner!");
+                return;
+            }
+        }
+
+        console.log("\nGame Over!");
+
+        if (playerScore > computerScore) {
+            alert("You are the overall winner!");
+        } else if (playerScore < computerScore) {
+            alert("Computer is the overall winner!");
+        } else {
+            alert("It's a tie overall!");
+        }
+    }
+
+    // Call playGame when the page loads
+    window.onload = playGame;
+</script>
+
+</body>
+</html>
