@@ -3,87 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock, Paper, Scissors Game</title>
+    <title>Rock Paper Scissors</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            background-color: lightblue;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 15px 30px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background-color: #3498db;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #result {
+            font-size: 24px;
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            background-color: #fff;
         }
     </style>
 </head>
 <body>
 
-<script>
-    function playRound(playerSelection, computerSelection) {
-        // Add logic to determine the winner based on playerSelection and computerSelection
-        if (playerSelection === computerSelection) {
-            return "It's a tie!";
-        } else if (
-            (playerSelection === "rock" && computerSelection === "scissors") ||
-            (playerSelection === "paper" && computerSelection === "rock") ||
-            (playerSelection === "scissors" && computerSelection === "paper")
-        ) {
-            return "You win!";
-        } else {
-            return "Computer wins!";
-        }
-    }
+    <button onclick="playerChoice('rock')">Rock</button>
+    <button onclick="playerChoice('paper')">Paper</button>
+    <button onclick="playerChoice('scissors')">Scissors</button>
 
-    function getComputerChoice() {
-        let randomNum = Math.floor(Math.random() * 3) + 1;
+    <div id="result"></div>
 
-        if (randomNum === 1) {
-            return "rock";
-        } else if (randomNum === 2) {
-            return "paper";
-        } else {
-            return "scissors";
-        }
-    }
-
-    function playGame() {
+    <script>
         let playerScore = 0;
         let computerScore = 0;
 
-        for (let i = 0; i < 5; i++) {
-            let playerChoice = prompt("Choose Rock, Paper, or Scissors:").toLowerCase();
+        function playRound(playerSelection, computerSelection) {
+            if (playerSelection === computerSelection) {
+                return "It's a tie!";
+            } else if (
+                (playerSelection === "rock" && computerSelection === "scissors") ||
+                (playerSelection === "paper" && computerSelection === "rock") ||
+                (playerSelection === "scissors" && computerSelection === "paper")
+            ) {
+                return "You win!";
+            } else {
+                return "Computer wins!";
+            }
+        }
+
+        function getComputerChoice() {
+            let randomNum = Math.floor(Math.random() * 3) + 1;
+
+            if (randomNum === 1) {
+                return "rock";
+            } else if (randomNum === 2) {
+                return "paper";
+            } else {
+                return "scissors";
+            }
+        }
+
+        function playGame(playerSelection) {
             let computerChoice = getComputerChoice();
 
-            console.log(`Round ${i + 1}:`);
-            console.log(`Player chose ${playerChoice}`);
+            console.log(`Player chose ${playerSelection}`);
             console.log(`Computer chose ${computerChoice}`);
 
-            let roundResult = playRound(playerChoice, computerChoice);
+            let roundResult = playRound(playerSelection, computerChoice);
             console.log(roundResult);
 
-            if (roundResult.includes("win")) {
+            if (roundResult.includes("You win")) {
                 playerScore++;
-            } else if (roundResult.includes("Computer")) {
+            } else if (roundResult.includes("Computer wins")) {
                 computerScore++;
             }
 
-            if (playerScore === 3) {
-                alert("You are the overall winner!");
-                return;
-            } else if (computerScore === 3) {
-                alert("Computer is the overall winner!");
-                return;
+            updateResult(roundResult);
+
+            if (playerScore === 3 || computerScore === 3) {
+                resetGame();
             }
         }
 
-        console.log("\nGame Over!");
-
-        if (playerScore > computerScore) {
-            alert("You are the overall winner!");
-        } else if (playerScore < computerScore) {
-            alert("Computer is the overall winner!");
-        } else {
-            alert("It's a tie overall!");
+        function updateResult(result) {
+            const resultDiv = document.getElementById("result");
+            resultDiv.textContent = result;
         }
-    }
 
-    // Call playGame when the page loads
-    window.onload = playGame;
-</script>
+        function resetGame() {
+            alert("Game Over!");
 
+            if (playerScore > computerScore) {
+                updateResult("You are the overall winner!");
+            } else if (playerScore < computerScore) {
+                updateResult("Computer is the overall winner!");
+            } else {
+                updateResult("It's a tie overall!");
+            }
+
+            playerScore = 0;
+            computerScore = 0;
+        }
+
+        window.playerChoice = playGame;
+    </script>
 </body>
 </html>
